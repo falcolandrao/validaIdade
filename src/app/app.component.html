@@ -1,0 +1,24 @@
+<main class="page">
+  <section class="card" aria-labelledby="titulo">
+    <p class="eyebrow">Exercício de Angular</p>
+    <h1 id="titulo">Verificador de idade</h1>
+    <p class="intro">
+      Informe uma idade e complete o template do componente com
+      <code>&#64;if</code> para exibir a mensagem correspondente.
+    </p>
+
+    <label for="idade">Idade</label>
+    <input
+      id="idade"
+      type="number"
+      min="0"
+      step="1"
+      [(ngModel)]="idade"
+    />
+
+    <section class="resultado" aria-labelledby="titulo-resultado" aria-live="polite">
+      <h2 id="titulo-resultado">Resultado</h2>
+      <app-verificador-idade [idade]="idade" />
+    </section>
+  </section>
+</main>

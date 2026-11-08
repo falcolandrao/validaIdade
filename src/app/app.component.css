@@ -1,0 +1,97 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.page {
+  display: grid;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  place-items: center;
+}
+
+.card {
+  width: min(100%, 34rem);
+  padding: 2.5rem;
+  background: #fff;
+  border: 1px solid #e3e8ef;
+  border-radius: 1.25rem;
+  box-shadow: 0 1.25rem 3rem rgb(24 39 75 / 8%);
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  color: #5264d8;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0.75rem;
+  color: #172033;
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+}
+
+.intro {
+  margin-bottom: 2rem;
+  color: #586174;
+  line-height: 1.6;
+}
+
+code {
+  padding: 0.1rem 0.35rem;
+  color: #3545b5;
+  background: #f0f2ff;
+  border-radius: 0.3rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #172033;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  color: #172033;
+  background: #fff;
+  border: 1px solid #cbd2df;
+  border-radius: 0.55rem;
+  font: inherit;
+}
+
+input:focus-visible {
+  border-color: #5264d8;
+  outline: 3px solid rgb(82 100 216 / 18%);
+}
+
+.resultado {
+  min-height: 5rem;
+  margin-top: 1.75rem;
+  padding: 1.25rem;
+  background: #f7f8fc;
+  border-radius: 0.75rem;
+}
+
+h2 {
+  margin-bottom: 0.75rem;
+  color: #586174;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.5rem;
+  }
+}

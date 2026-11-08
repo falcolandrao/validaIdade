@@ -1,0 +1,211 @@
+# Verificador de idade
+
+Aplicação de exercício criada com Angular 19 e TypeScript.
+
+## Executar
+
+```bash
+npm install
+npm start
+```
+
+## Funcionamento
+
+Informe uma idade no campo da aplicação. O componente recebe esse valor
+por meio de um `input` signal, iniciado em `0`, e usa o bloco `@if` do
+template `src/app/verificador-idade/verificador-idade.component.html` para
+exibir o resultado:
+
+- Para idade maior ou igual a 18, exibe **Você é maior de idade.**
+- Para idade menor que 18, exibe **Você é menor de idade.**
+
+## Caso de uso: verificar idade com o back-end
+
+### Definições técnicas
+
+- **Framework:** ASP.NET Core MVC.
+- **Linguagem:** C# 14.
+- **SDK:** .NET 10 SDK, versão 10.0.403.
+
+### Comunicação e contrato da API
+
+A aplicação Angular e o back-end trocarão dados por uma API HTTP que utiliza
+JSON. O Angular enviará a idade para processamento, e o back-end devolverá
+uma resposta JSON com a mensagem. Para esta operação será utilizado o método
+`POST`, pois o cliente está enviando um dado para ser processado.
+
+#### Requisição
+
+- **Método:** `POST`
+- **Rota:** `/api/verificacao-idade`
+- **Cabeçalho:** `Content-Type: application/json`
+- **Corpo:**
+
+```json
+{
+  "idade": 18
+}
+```
+
+#### Resposta de sucesso
+
+O back-end responderá com o status HTTP `200 OK` e um objeto JSON contendo a
+mensagem correspondente à idade recebida.
+
+Para idade maior ou igual a 18:
+
+```json
+{
+  "mensagem": "Você é maior de idade."
+}
+```
+
+Para idade menor que 18:
+
+```json
+{
+  "mensagem": "Você é menor de idade."
+}
+```
+
+#### Responsabilidades na comunicação
+
+- **Angular:** coleta a idade, envia o `POST` e apresenta a mensagem recebida.
+- **Back-end:** recebe a idade, aplica a regra de maioridade e retorna a
+  resposta JSON.
+- **HTTP/JSON:** define o protocolo e o formato compartilhado para a troca
+  de dados entre as aplicações.
+
+#### Execução em desenvolvimento
+
+Angular e back-end podem ser executados em origens diferentes, por exemplo,
+Angular em `http://localhost:4200` e back-end em `https://localhost:7000`.
+Como o navegador restringe requisições entre origens distintas, o back-end
+deverá configurar CORS para permitir a origem local usada pelo Angular.
+
+### Objetivo
+
+Evoluir o exercício para praticar a integração entre Angular e um back-end
+simples em ASP.NET Core MVC com C# 14 e .NET 10. A validação da maioridade,
+atualmente feita no template Angular, passará a ser responsabilidade do
+back-end.
+
+### Atores
+
+- **Usuário:** informa a idade e consulta o resultado.
+- **Aplicação Angular:** envia a idade ao back-end e apresenta o resultado
+  recebido.
+- **Back-end ASP.NET Core MVC:** valida a idade e devolve a mensagem
+  correspondente.
+
+### Fluxo principal
+
+1. O usuário informa uma idade na aplicação Angular.
+2. O Angular envia a idade ao back-end ASP.NET Core MVC.
+3. O back-end avalia a idade recebida:
+   - Se a idade for maior ou igual a 18, responde **Você é maior de idade.**
+   - Se a idade for menor que 18, responde **Você é menor de idade.**
+4. O Angular apresenta ao usuário a resposta recebida, sem repetir a regra
+   de maioridade no front-end.
+
+### Resultado esperado
+
+A regra de negócio para determinar a maioridade fica centralizada no
+back-end em C#. A aplicação Angular fica responsável por coletar a idade,
+solicitar a verificação e exibir o resultado.
+
+## Tasks de implementação do back-end
+
+As tasks abaixo organizam o trabalho de construção do back-end. Elas
+descrevem o resultado esperado e não significam que a implementação já foi
+iniciada.
+
+### Task 1 — Criar o projeto ASP.NET Core MVC
+
+- Criar um projeto back-end usando ASP.NET Core MVC, C# 14 e .NET 10 SDK
+  versão 10.0.403.
+- Configurar a aplicação para receber requisições HTTP e retornar respostas
+  JSON.
+- Manter o back-end em uma pasta própria, separada do projeto Angular.
+
+**Critérios de aceite**
+
+- O projeto compila e inicia localmente com o SDK definido.
+- O back-end pode ser executado em uma URL local conhecida para a integração.
+
+### Task 2 — Definir os modelos da requisição e da resposta
+
+- Criar um modelo de requisição com a propriedade numérica `idade`.
+- Criar um modelo de resposta com a propriedade textual `mensagem`.
+- Garantir que a serialização JSON use os nomes de propriedades definidos no
+  contrato (`idade` e `mensagem`).
+
+**Critérios de aceite**
+
+- O back-end aceita uma requisição JSON no formato documentado.
+- Uma resposta de sucesso contém `mensagem` com o texto correspondente.
+
+### Task 3 — Implementar o endpoint de verificação
+
+- Criar um endpoint MVC de API com método `POST` e rota
+  `/api/verificacao-idade`.
+- Receber a idade a partir do corpo JSON.
+- Aplicar no back-end a regra: idade maior ou igual a 18 é maioridade; idade
+  menor que 18 é menoridade.
+- Retornar `200 OK` com a mensagem prevista no contrato.
+
+**Critérios de aceite**
+
+- Para idade `18` ou superior, a resposta é **Você é maior de idade.**
+- Para idade abaixo de `18`, a resposta é **Você é menor de idade.**
+- A regra não é duplicada como regra de negócio no Angular.
+
+### Task 4 — Validar os dados de entrada
+
+- Rejeitar idade ausente, negativa ou que não seja um número inteiro.
+- Retornar `400 Bad Request` para entradas inválidas, sem executar a regra de
+  maioridade.
+- Usar uma resposta de erro consistente do ASP.NET Core, preferencialmente
+  `ProblemDetails`, sem alterar o formato das respostas de sucesso.
+
+**Critérios de aceite**
+
+- Idades inteiras não negativas são processadas.
+- Entradas ausentes ou inválidas recebem status `400 Bad Request`.
+
+### Task 5 — Configurar CORS para desenvolvimento
+
+- Permitir a origem local usada pelo Angular (por exemplo,
+  `http://localhost:4200`).
+- Aplicar a política CORS ao endpoint da API.
+- Evitar liberar origens indiscriminadamente; a origem permitida deverá ser
+  configurável para outros ambientes.
+
+**Critérios de aceite**
+
+- O navegador permite que o Angular local chame o endpoint.
+- Uma origem não configurada não recebe permissão CORS.
+
+### Task 6 — Testar o contrato e as regras
+
+- Criar testes para os casos de idade `17`, `18` e uma idade acima de `18`.
+- Criar testes para requisição ausente ou inválida e verificar o status
+  `400`.
+- Verificar método, rota, status HTTP e formato JSON das respostas.
+
+**Critérios de aceite**
+
+- Os testes cobrem os dois resultados da regra de negócio e as entradas
+  inválidas.
+- As respostas de sucesso correspondem ao contrato documentado neste README.
+
+### Task 7 — Documentar como executar e testar o back-end
+
+- Documentar pré-requisitos, comando para iniciar o back-end e URL local.
+- Documentar exemplos de requisição e como conferir as respostas da API.
+- Registrar como executar os testes automatizados.
+
+**Critérios de aceite**
+
+- Uma pessoa desenvolvedora consegue iniciar e testar o back-end seguindo
+  as instruções, sem depender de configuração não documentada.
