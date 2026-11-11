@@ -25,7 +25,10 @@ exibir o resultado:
 
 - **Framework:** ASP.NET Core MVC.
 - **Linguagem:** C# 14.
-- **SDK:** .NET 10 SDK, versão 10.0.403.
+- **SDK previsto:** .NET 10 SDK, versão 10.0.403.
+- **SDK usado nesta etapa:** .NET 10 SDK, versão 10.0.402 (instalado no
+  ambiente). O projeto tem como alvo `net10.0`; esta diferença de patch foi
+  registrada e não altera o framework de destino.
 
 ### Comunicação e contrato da API
 
@@ -79,7 +82,7 @@ Para idade menor que 18:
 #### Execução em desenvolvimento
 
 Angular e back-end podem ser executados em origens diferentes, por exemplo,
-Angular em `http://localhost:4200` e back-end em `https://localhost:7000`.
+Angular em `http://localhost:4200` e back-end em `http://localhost:5187`.
 Como o navegador restringe requisições entre origens distintas, o back-end
 deverá configurar CORS para permitir a origem local usada pelo Angular.
 
@@ -116,22 +119,58 @@ solicitar a verificação e exibir o resultado.
 
 ## Tasks de implementação do back-end
 
-As tasks abaixo organizam o trabalho de construção do back-end. Elas
-descrevem o resultado esperado e não significam que a implementação já foi
-iniciada.
+As tasks abaixo organizam o trabalho de construção do back-end. A Task 1 foi
+concluída; as demais permanecem planejadas e ainda não foram iniciadas.
 
-### Task 1 — Criar o projeto ASP.NET Core MVC
+### Task 1 — Criar o projeto ASP.NET Core MVC (concluída)
 
-- Criar um projeto back-end usando ASP.NET Core MVC, C# 14 e .NET 10 SDK
-  versão 10.0.403.
-- Configurar a aplicação para receber requisições HTTP e retornar respostas
-  JSON.
-- Manter o back-end em uma pasta própria, separada do projeto Angular.
+O projeto ASP.NET Core MVC foi criado em
+`backend/VerificadorIdade.Api/`, separado da aplicação Angular, com alvo
+`net10.0`. Como o ambiente disponibiliza o SDK `10.0.402`, ele foi usado para
+gerar, compilar e executar o projeto; a versão prevista `10.0.403` ainda não
+foi usada.
 
-**Critérios de aceite**
+#### Estrutura criada
 
-- O projeto compila e inicia localmente com o SDK definido.
-- O back-end pode ser executado em uma URL local conhecida para a integração.
+- `VerificadorIdade.Api.csproj`: projeto web ASP.NET Core com alvo `net10.0`,
+  nullable reference types e implicit usings habilitados.
+- `Program.cs`: inicializa a aplicação, registra MVC com
+  `AddControllersWithViews`, configura o pipeline HTTP e o roteamento MVC.
+- `Controllers/HomeController.cs` e `Models/ErrorViewModel.cs`: controller
+  e modelo de exemplo gerados pelo template MVC.
+- `Views/`: páginas Razor iniciais (Home, Privacy, Error e layout
+  compartilhado).
+- `wwwroot/`: arquivos estáticos e bibliotecas do template (Bootstrap,
+  jQuery e validação).
+- `appsettings.json` e `appsettings.Development.json`: configuração inicial
+  de logging e ambiente.
+- `Properties/launchSettings.json`: perfil `http` para execução local em
+  `http://localhost:5187`.
+
+O template MVC disponibiliza o suporte a controllers e serialização JSON da
+plataforma. O endpoint de verificação e seus modelos ainda não foram criados;
+isso pertence às Tasks 2 e 3.
+
+#### Executar e validar
+
+Na raiz do repositório, use:
+
+```powershell
+dotnet build .\backend\VerificadorIdade.Api\VerificadorIdade.Api.csproj
+dotnet run --project .\backend\VerificadorIdade.Api\VerificadorIdade.Api.csproj
+```
+
+O perfil local inicia a aplicação em `http://localhost:5187`. Nesta etapa, a
+rota raiz apresenta a página MVC inicial. A compilação foi validada com
+sucesso (zero avisos e zero erros), e uma requisição HTTP à rota raiz
+retornou `200 OK`.
+
+#### Critérios de aceite
+
+- Projeto MVC independente do Angular, criado e compilado como `net10.0`.
+- Aplicação inicia em uma URL local conhecida.
+- Pipeline MVC pronto para receber controllers e respostas JSON nas próximas
+  tasks.
 
 ### Task 2 — Definir os modelos da requisição e da resposta
 
