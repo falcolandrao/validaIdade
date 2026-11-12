@@ -187,7 +187,7 @@ serialização explícita dos nomes de contrato.
 - O back-end aceita uma requisição JSON no formato documentado.
 - Uma resposta de sucesso contém `mensagem` com o texto correspondente.
 
-### Task 3 — Implementar o endpoint de verificação
+### Task 3 — Implementar o endpoint de verificação (concluída)
 
 - Criar um endpoint MVC de API com método `POST` e rota
   `/api/verificacao-idade`.
@@ -195,6 +195,8 @@ serialização explícita dos nomes de contrato.
 - Aplicar no back-end a regra: idade maior ou igual a 18 é maioridade; idade
   menor que 18 é menoridade.
 - Retornar `200 OK` com a mensagem prevista no contrato.
+
+O endpoint foi implementado em `backend/VerificadorIdade.Api/Controllers/VerificacaoIdadeController.cs` e usa os modelos de requisição e resposta definidos na Task 2.
 
 **Critérios de aceite**
 
