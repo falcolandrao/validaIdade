@@ -204,13 +204,17 @@ O endpoint foi implementado em `backend/VerificadorIdade.Api/Controllers/Verific
 - Para idade abaixo de `18`, a resposta é **Você é menor de idade.**
 - A regra não é duplicada como regra de negócio no Angular.
 
-### Task 4 — Validar os dados de entrada
+### Task 4 — Validar os dados de entrada (concluída)
 
 - Rejeitar idade ausente, negativa ou que não seja um número inteiro.
 - Retornar `400 Bad Request` para entradas inválidas, sem executar a regra de
   maioridade.
 - Usar uma resposta de erro consistente do ASP.NET Core, preferencialmente
   `ProblemDetails`, sem alterar o formato das respostas de sucesso.
+
+A validação foi implementada com `int?` + `Required` + `Range` no modelo de
+requisição e com checagens em `ModelState`/`ValidationProblem` no controller. As
+respostas de sucesso continuam no mesmo formato do contrato da API.
 
 **Critérios de aceite**
 
