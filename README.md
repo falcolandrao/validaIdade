@@ -119,8 +119,8 @@ solicitar a verificação e exibir o resultado.
 
 ## Tasks de implementação do back-end
 
-As tasks abaixo organizam o trabalho de construção do back-end. A Task 1 foi
-concluída; as demais permanecem planejadas e ainda não foram iniciadas.
+As tasks abaixo organizam o trabalho de construção do back-end. As Tasks 1 e 2
+foram concluídas; as demais permanecem planejadas e ainda não foram iniciadas.
 
 ### Task 1 — Criar o projeto ASP.NET Core MVC (concluída)
 
@@ -148,8 +148,8 @@ foi usada.
   `http://localhost:5187`.
 
 O template MVC disponibiliza o suporte a controllers e serialização JSON da
-plataforma. O endpoint de verificação e seus modelos ainda não foram criados;
-isso pertence às Tasks 2 e 3.
+plataforma. Os modelos da requisição e da resposta já foram definidos; o
+endpoint de verificação continua sendo a próxima etapa da Task 3.
 
 #### Executar e validar
 
@@ -172,12 +172,15 @@ retornou `200 OK`.
 - Pipeline MVC pronto para receber controllers e respostas JSON nas próximas
   tasks.
 
-### Task 2 — Definir os modelos da requisição e da resposta
+### Task 2 — Definir os modelos da requisição e da resposta (concluída)
 
 - Criar um modelo de requisição com a propriedade numérica `idade`.
 - Criar um modelo de resposta com a propriedade textual `mensagem`.
 - Garantir que a serialização JSON use os nomes de propriedades definidos no
   contrato (`idade` e `mensagem`).
+
+Os modelos foram criados em `backend/VerificadorIdade.Api/Models/` com a
+serialização explícita dos nomes de contrato.
 
 **Critérios de aceite**
 
