@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using VerificadorIdade.Api.Models;
 
@@ -5,6 +6,7 @@ namespace VerificadorIdade.Api.Controllers;
 
 [ApiController]
 [Route("api")]
+[EnableCors("AngularOrigin")]
 public class VerificacaoIdadeController : ControllerBase
 {
     [HttpPost("verificacao-idade")]

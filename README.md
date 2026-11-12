@@ -119,7 +119,7 @@ solicitar a verificação e exibir o resultado.
 
 ## Tasks de implementação do back-end
 
-As tasks abaixo organizam o trabalho de construção do back-end. As Tasks 1 e 2
+As tasks abaixo organizam o trabalho de construção do back-end. As Tasks 1 a 5
 foram concluídas; as demais permanecem planejadas e ainda não foram iniciadas.
 
 ### Task 1 — Criar o projeto ASP.NET Core MVC (concluída)
@@ -148,8 +148,8 @@ foi usada.
   `http://localhost:5187`.
 
 O template MVC disponibiliza o suporte a controllers e serialização JSON da
-plataforma. Os modelos da requisição e da resposta já foram definidos; o
-endpoint de verificação continua sendo a próxima etapa da Task 3.
+plataforma. Os modelos, endpoint e validação da API estão descritos nas Tasks
+2 a 4.
 
 #### Executar e validar
 
@@ -221,13 +221,20 @@ respostas de sucesso continuam no mesmo formato do contrato da API.
 - Idades inteiras não negativas são processadas.
 - Entradas ausentes ou inválidas recebem status `400 Bad Request`.
 
-### Task 5 — Configurar CORS para desenvolvimento
+### Task 5 — Configurar CORS para desenvolvimento (concluída)
 
 - Permitir a origem local usada pelo Angular (por exemplo,
   `http://localhost:4200`).
 - Aplicar a política CORS ao endpoint da API.
 - Evitar liberar origens indiscriminadamente; a origem permitida deverá ser
   configurável para outros ambientes.
+
+Foi criada a política `AngularOrigin`, aplicada ao controller da API. Em
+desenvolvimento, `http://localhost:4200` é a origem permitida, definida em
+`appsettings.Development.json`. A lista base em `appsettings.json` fica vazia;
+outros ambientes devem configurar `Cors:AllowedOrigins` com as origens
+autorizadas, por exemplo pela variável de ambiente
+`Cors__AllowedOrigins__0`.
 
 **Critérios de aceite**
 
