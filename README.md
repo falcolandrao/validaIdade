@@ -84,14 +84,16 @@ Para idade menor que 18:
 Angular e back-end podem ser executados em origens diferentes, por exemplo,
 Angular em `http://localhost:4200` e back-end em `http://localhost:5187`.
 Como o navegador restringe requisições entre origens distintas, o back-end
-deverá configurar CORS para permitir a origem local usada pelo Angular.
+está configurado para permitir a origem local do Angular (`http://localhost:4200`)
+em desenvolvimento. A configuração para outros ambientes está descrita na
+Task 5.
 
 ### Objetivo
 
 Evoluir o exercício para praticar a integração entre Angular e um back-end
-simples em ASP.NET Core MVC com C# 14 e .NET 10. A validação da maioridade,
-atualmente feita no template Angular, passará a ser responsabilidade do
-back-end.
+simples em ASP.NET Core MVC com C# 14 e .NET 10. O endpoint do back-end aplica
+a regra de maioridade; na integração, o Angular deve enviar a idade e exibir a
+resposta, sem duplicar essa regra de negócio.
 
 ### Atores
 
@@ -119,8 +121,8 @@ solicitar a verificação e exibir o resultado.
 
 ## Tasks de implementação do back-end
 
-As tasks abaixo organizam o trabalho de construção do back-end. As Tasks 1 a 6
-foram concluídas; as demais permanecem planejadas e ainda não foram iniciadas.
+As tasks abaixo organizam o trabalho de construção do back-end. As Tasks 1 a 7
+foram concluídas.
 
 ### Task 1 — Criar o projeto ASP.NET Core MVC (concluída)
 
@@ -264,13 +266,71 @@ dotnet test .\backend\VerificadorIdade.Api.Tests\VerificadorIdade.Api.Tests.cspr
   inválidas.
 - As respostas de sucesso correspondem ao contrato documentado neste README.
 
-### Task 7 — Documentar como executar e testar o back-end
+### Task 7 — Documentar como executar e testar o back-end (concluída)
 
 - Documentar pré-requisitos, comando para iniciar o back-end e URL local.
 - Documentar exemplos de requisição e como conferir as respostas da API.
 - Registrar como executar os testes automatizados.
 
+#### Pré-requisitos
+
+- .NET 10 SDK. O projeto foi compilado e validado com a versão `10.0.402`.
+- PowerShell para os comandos abaixo, executados na raiz do repositório.
+
+Confira a versão instalada:
+
+```powershell
+dotnet --version
+```
+
+#### Iniciar o back-end
+
+Restaure as dependências, compile e inicie a API:
+
+```powershell
+dotnet restore .\backend\VerificadorIdade.Api\VerificadorIdade.Api.csproj
+dotnet build .\backend\VerificadorIdade.Api\VerificadorIdade.Api.csproj
+dotnet run --project .\backend\VerificadorIdade.Api\VerificadorIdade.Api.csproj
+```
+
+O perfil `http` do projeto inicia a API em `http://localhost:5187`. Mantenha
+esse terminal aberto enquanto fizer chamadas. A configuração de desenvolvimento
+permite CORS para `http://localhost:4200`. Para outro ambiente, configure
+`Cors__AllowedOrigins__0` com a origem autorizada antes de iniciar a aplicação.
+
+#### Enviar requisições para a API
+
+Com o back-end em execução, envie uma idade pelo endpoint
+`POST http://localhost:5187/api/verificacao-idade`:
+
+```powershell
+$uri = "http://localhost:5187/api/verificacao-idade"
+$body = @{ idade = 18 } | ConvertTo-Json
+Invoke-RestMethod -Method Post -Uri $uri -ContentType "application/json" -Body $body
+```
+
+Para idade `18`, a resposta HTTP é `200 OK` e o corpo é:
+
+```json
+{
+  "mensagem": "Você é maior de idade."
+}
+```
+
+Para conferir o caso abaixo de 18, altere o valor de `idade` para `17`; a
+mensagem será `"Você é menor de idade."`. Idades ausentes ou inválidas, como
+`-1`, recebem `400 Bad Request` com uma resposta `ProblemDetails`.
+
+#### Executar os testes automatizados
+
+Os testes de integração usam `WebApplicationFactory` e iniciam a API em memória,
+portanto não é necessário deixar o servidor local em execução:
+
+```powershell
+dotnet test .\backend\VerificadorIdade.Api.Tests\VerificadorIdade.Api.Tests.csproj
+```
+
 **Critérios de aceite**
 
-- Uma pessoa desenvolvedora consegue iniciar e testar o back-end seguindo
-  as instruções, sem depender de configuração não documentada.
+- Pré-requisitos, inicialização, URL, chamadas de exemplo e execução dos testes
+  estão documentados neste README.
