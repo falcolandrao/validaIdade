@@ -119,7 +119,7 @@ solicitar a verificação e exibir o resultado.
 
 ## Tasks de implementação do back-end
 
-As tasks abaixo organizam o trabalho de construção do back-end. As Tasks 1 a 5
+As tasks abaixo organizam o trabalho de construção do back-end. As Tasks 1 a 6
 foram concluídas; as demais permanecem planejadas e ainda não foram iniciadas.
 
 ### Task 1 — Criar o projeto ASP.NET Core MVC (concluída)
@@ -241,12 +241,22 @@ autorizadas, por exemplo pela variável de ambiente
 - O navegador permite que o Angular local chame o endpoint.
 - Uma origem não configurada não recebe permissão CORS.
 
-### Task 6 — Testar o contrato e as regras
+### Task 6 — Testar o contrato e as regras (concluída)
 
 - Criar testes para os casos de idade `17`, `18` e uma idade acima de `18`.
 - Criar testes para requisição ausente ou inválida e verificar o status
   `400`.
 - Verificar método, rota, status HTTP e formato JSON das respostas.
+
+Foi criado o projeto xUnit
+`backend/VerificadorIdade.Api.Tests/`, com testes de integração usando o
+`WebApplicationFactory`. Os testes cobrem as idades `17`, `18` e `21`, corpo
+ausente, idade ausente, negativa, não inteira e de tipo inválido, além de
+verificar o contrato JSON, a rota e o método HTTP. Para executar:
+
+```powershell
+dotnet test .\backend\VerificadorIdade.Api.Tests\VerificadorIdade.Api.Tests.csproj
+```
 
 **Critérios de aceite**
 
