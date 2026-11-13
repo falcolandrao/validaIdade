@@ -334,3 +334,30 @@ dotnet test .\backend\VerificadorIdade.Api.Tests\VerificadorIdade.Api.Tests.cspr
 
 - Pré-requisitos, inicialização, URL, chamadas de exemplo e execução dos testes
   estão documentados neste README.
+
+## Melhorias futuras
+
+### Integrar o formulário Angular com a API de verificação
+
+Atualmente, o campo de idade do Angular atualiza o estado do componente e a
+tela calcula e exibe a mensagem localmente. Assim, informar uma idade no
+formulário não envia uma requisição ao back-end.
+
+O endpoint `POST /api/verificacao-idade` já está implementado e recebe um JSON
+no formato `{"idade": 18}`, retornando `{"mensagem": "..."}`. Para integrar a
+tela à API:
+
+- Criar um serviço Angular que use `HttpClient` para enviar a idade ao endpoint.
+- Registrar o cliente HTTP com `provideHttpClient()` na configuração da
+  aplicação.
+- Acionar a chamada, por exemplo, ao submeter o formulário, e exibir a
+  propriedade `mensagem` retornada pelo back-end.
+- Tratar os estados de carregamento e erros HTTP, incluindo respostas `400`
+  para dados inválidos.
+- Remover a regra de maioridade do fluxo local da tela, evitando duplicar no
+  front-end uma regra que pertence ao back-end.
+
+Em desenvolvimento, Angular e back-end devem estar rodando em
+`http://localhost:4200` e `http://localhost:5187`, respectivamente. A
+configuração CORS atual já permite a origem local do Angular. Não é necessário
+criar outro endpoint para essa integração.
